@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CRYPT//CORE — Classical Cryptography Toolkit. Interactive cybersecurity workstation for classical substitution and transposition ciphers. Network Security Mini Project 2026-27.">
+  <title>CRYPT//CORE — Classical Cryptography Toolkit | Network Security</title>
+  
+  <!-- Google Fonts: Inter and JetBrains Mono (with system fallbacks in CSS) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Subtle Background Matrix / Grid Canvas -->
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+
+  <!-- Notification Toast Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="top-nav" role="banner">
+    <div class="nav-container">
+      <div class="brand-group">
+        <div class="brand-icon" aria-hidden="true">
+          <!-- Cyber Shield Icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">CRYPT<span class="accent-slash">//</span>CORE</span>
+          <span class="brand-sub">CLASSICAL CRYPTOGRAPHY TOOLKIT</span>
+        </div>
+      </div>
+
+      <nav class="nav-links" id="nav-menu" role="navigation" aria-label="Main Navigation">
+        <a href="#dashboard" class="nav-link active" id="nav-link-dashboard">
+          <span class="nav-index">01</span> Dashboard
+        </a>
+        <a href="#workspace" class="nav-link" id="nav-link-workspace">
+          <span class="nav-index">02</span> Algorithms
+        </a>
+        <a href="#comparison" class="nav-link" id="nav-link-comparison">
+          <span class="nav-index">03</span> Comparison
+        </a>
+        <a href="#file-tools" class="nav-link" id="nav-link-files">
+          <span class="nav-index">04</span> File Tools
+        </a>
+        <a href="#self-tests" class="nav-link" id="nav-link-tests">
+          <span class="nav-index">05</span> Verification
+        </a>
+        <a href="#documentation" class="nav-link" id="nav-link-docs">
+          <span class="nav-index">06</span> Documentation
+        </a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="status-indicator" title="Cryptographic engine ready in local browser memory">
+          <span class="status-dot"></span>
+          <span class="status-label">SYSTEM READY</span>
+        </div>
+        <button id="exit-btn" class="btn btn-ghost btn-sm" aria-label="Reset workspace or exit application">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+            <line x1="12" y1="2" x2="12" y2="12"></line>
+          </svg>
+          <span>EXIT</span>
+        </button>
+        <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="main-wrapper">
+    <!-- SECTION 1: HERO / DASHBOARD -->
+    <section id="dashboard" class="dashboard-section" aria-labelledby="dashboard-title">
+      <div class="hero-container">
+        <div class="academic-badge-strip">
+          <span class="academic-badge">FINAL YEAR MINI PROJECT 2026–27</span>
+          <span class="badge-separator">|</span>
+          <span class="academic-badge">ELECTRONICS &amp; COMPUTER ENGINEERING</span>
+          <span class="badge-separator">|</span>
+          <span class="academic-badge">NETWORK SECURITY (EC-NS-402)</span>
+        </div>
+
+        <h1 id="dashboard-title" class="hero-title">
+          CLASSICAL <span class="text-neon">CRYPTOGRAPHY</span> TOOLKIT
+        </h1>
+
+        <p class="hero-subtitle">
+          Explore, encrypt, decrypt, and compare classical cryptographic algorithms in one interactive cybersecurity workspace.
+        </p>
+
+        <!-- Academic Security Warning Banner -->
+        <div class="security-banner" role="alert">
+          <div class="banner-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div class="banner-text">
+            <strong>ACADEMIC NOTICE &amp; SECURITY LIMITATION:</strong>
+            Classical ciphers are educational demonstrations designed to study cryptographic principles. They are susceptible to frequency analysis, brute force, and known-plaintext attacks and are <em>not suitable</em> for securing modern sensitive information.
+          </div>
+        </div>
+
+        <!-- Quick Action CTA Buttons -->
+        <div class="hero-actions">
+          <a href="#workspace" class="btn btn-primary" id="cta-workspace">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            OPEN ENCRYPTION WORKSPACE
+          </a>
+          <a href="#workspace" class="btn btn-secondary" id="cta-explore">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+            EXPLORE ALGORITHMS
+          </a>
+          <button type="button" class="btn btn-orange" id="cta-sample-demo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+            SAMPLE DEMO: NETWORK SECURITY
+          </button>
+        </div>
+
+        <!-- Verified Project Statistic Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">ALGORITHMS</span>
+              <span class="stat-tag tag-neon">VERIFIED</span>
+            </div>
+            <div class="stat-value">8</div>
+            <div class="stat-desc">Caesar, Monoalphabetic, Playfair, Hill, Vigenère, OTP, Rail Fence, Columnar</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">CIPHER FAMILIES</span>
+              <span class="stat-tag tag-orange">DUAL ENGINE</span>
+            </div>
+            <div class="stat-value">2</div>
+            <div class="stat-desc">Substitution (Letter mapping &amp; matrices) &amp; Transposition (Position permuting)</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">UTILITY MODULES</span>
+              <span class="stat-tag tag-cyan">ACTIVE</span>
+            </div>
+            <div class="stat-value">4</div>
+            <div class="stat-desc">Multi-Cipher Comparison, File Encryption, File Decryption, Interactive Help</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">TEST COVERAGE</span>
+              <span class="stat-tag tag-green">BUILT-IN</span>
+            </div>
+            <div class="stat-value">100%</div>
+            <div class="stat-desc">Automated self-testing engine with standard cryptographic test vectors</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: MAIN CIPHER WORKSPACE (Two-Column Layout) -->
+    <section id="workspace" class="workspace-section" aria-labelledby="workspace-title">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">// MODULE 01</span>
+          <h2 id="workspace-title" class="section-title">ENCRYPTION &amp; DECRYPTION WORKSPACE</h2>
+          <p class="section-desc">Select an algorithm, configure the mathematical key, and execute encryption or decryption.</p>
+        </div>
+        <div class="workspace-quick-tools">
+          <button id="quick-demo-btn" class="btn btn-ghost btn-sm" title="Load sample input and key">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            Load Sample Text
+          </button>
+        </div>
+      </div>
+
+      <div class="workspace-layout">
+        <!-- LEFT PANEL: ALGORITHM SELECTOR -->
+        <aside class="algo-sidebar" aria-label="Algorithm Selection">
+          <div class="sidebar-header">
+            <h3 class="panel-heading">CIPHER SELECTION</h3>
+            <span class="panel-sub" id="cipher-count-badge">8 Available</span>
+          </div>
+
+          <!-- Cipher Family Filter Tabs -->
+          <div class="family-tabs" role="tablist" aria-label="Cipher Families">
+            <button class="family-tab active" role="tab" aria-selected="true" data-family="all" id="tab-family-all">
+              All (8)
+            </button>
+            <button class="family-tab" role="tab" aria-selected="false" data-family="substitution" id="tab-family-sub">
+              Substitution (6)
+            </button>
+            <button class="family-tab" role="tab" aria-selected="false" data-family="transposition" id="tab-family-trans">
+              Transposition (2)
+            </button>
+          </div>
+
+          <!-- List of 8 Cipher Cards -->
+          <div class="cipher-card-list" id="cipher-list" role="radiogroup" aria-label="Select Cryptographic Algorithm">
+            
+            <!-- 1. Caesar -->
+            <div class="cipher-card active" data-cipher="caesar" data-family="substitution" tabindex="0" role="radio" aria-checked="true">
+              <div class="cipher-card-head">
+                <span class="cipher-number">01</span>
+                <span class="cipher-family-badge badge-sub">SUBSTITUTION</span>
+              </div>
+              <h4 class="cipher-card-name">Caesar Cipher</h4>
+              <p class="cipher-card-desc">Fixed modular shift across the 26-letter Latin alphabet.</p>
+              <div class="cipher-meta">
+                <span class="meta-item">Key: Integer Shift</span>
+                <span class="meta-item">Keyspace: 25</span>
+              </div>
+            </div>
+
+            <!-- 2. Monoalphabetic -->
+            <div class="cipher-card" data-cipher="monoalphabetic" data-family="substitution" tabindex="0" role="radio" aria-checked="false">
+              <div class="cipher-card-head">
+                <span class="cipher-number">02</span>
+                <span class="cipher-family-badge badge-sub">SUBSTITUTION</span>
+              </div>
+              <h4 class="cipher-card-name">Monoalphabetic Cipher</h4>
+              <p class="cipher-card-desc">Arbitrary bijective permutation of the 26-letter alphabet.</p>
+              <div class="cipher-meta">
+                <span class="meta-item">Key: 26-Char Map</span>
+                <span class="meta-item">Keyspace: 26!</span>
+              </div>
+            </div>
+
+            <!-- 3. Playfair -->
+            <div class="cipher-card" data-cipher="playfair" data-family="substitution" tabindex="0" role="radio" aria-checked="false">
+              <div class="cipher-card-head">
+                <span class="cipher-number">03</span>
+                <span class="cipher-family-badge badge-sub">POLYGRAPHIC</span>
+              </div>
+              <h4 class="cipher-card-name">Playfair Cipher</h4>
+              <p class="cipher-card-desc">Digraph substitution using an interactive 5×5 grid matrix.</p>
+              <div class="cipher-meta">
+                <span class="meta-item">Key: Keyword Matrix</span>
+                <span class="meta-item">Units: 2-Letter Pairs</span>
+              </div>
+            </div>
+
+            <!-- 4. Hill -->
+            <div class="cipher-card" data-cipher="hill" data-family="substitution" tabindex="0" role="radio" aria-checked="false">
+              <div class="cipher-card-head">
+                <span class="cipher-number">04</span>
+                <span class="cipher-family-badge badge-sub">POLYGRAPHIC</span>
+              </div>
+              <h4 class="cipher-card-name">Hill Cipher (2×2)</h4>
+              <p class="cipher-card-desc">Linear algebra modulo 26 vector-matrix transformations.</p>
+              <div class="cipher-meta">
+                <span class="meta-item">Key: 2×2 Matrix</span>
+                <span class="meta-item">Cond: gcd(det,26)=1</span>
+              </div>
+            </div>
+
+            <!-- 5. Vigenère -->
+            <div class="cipher-card" data-cipher="vigenere" data-family="substitution" tabindex="0" role="radio" aria-checked="false">
+              <div class="cipher-card-head">
+                <span class="cipher-number">05</span>
+                <span class="cipher-family-badge badge-sub">POLYALPHABETIC</span>
+              </div>
+              <h4 class="cipher-card-name">Vigenère Cipher</h4>
+              <p class="cipher-card-desc">Repeating keyword shifts based on the Tabula Recta.</p>
+              <div class="cipher-meta">
+                <span class="meta-item">Key: Alphabetic Word</span>
+                <span class="meta-item">Keyspace: 26ᴸ</span>
+              </div>
+            </div>
+
+            <!-- 6. One-Time Pad -->
+            <div class="cipher-card" data-cipher="otp" data-family="substitution" tabindex="0" role="radio" aria-checked="false">
+              <div class="cipher-card-head">
+                <span class="cipher-number">06</span>
+                <span class="cipher-family-badge badge-sub">POLYALPHABETIC</span>
+              </div>
+              <h4 class="cipher-card-name">One-Time Pad (Vernam)</h4>
+              <p class="cipher-card-desc">Unconditional secrecy if truly random, unrepeated, and ≥ message length.</p>
+              <div class="cipher-meta">
+                <span class="meta-item">Key: Random String</span>
+                <span class="meta-item">Len: ≥ Message</span>
+              </div>
+            </div>
+
+            <!-- 7. Rail Fence -->
+            <div class="cipher-card" data-cipher="railfence" data-family="transposition" tabindex="0" role="radio" aria-checked="false">
+              <div class="cipher-card-head">
+                <span class="cipher-number">07</span>
+                <span class="cipher-family-badge badge-trans">TRANSPOSITION</span>
+              </div>
+              <h4 class="cipher-card-name">Rail Fence Cipher</h4>
+              <p class="cipher-card-desc">Zigzag geometric trajectory written across parallel rails.</p>
+              <div class="cipher-meta">
+                <span class="meta-item">Key: Rails (≥2)</span>
+                <span class="meta-item">Type: Geometric</span>
+              </div>
+            </div>
+
+            <!-- 8. Columnar Transposition -->
+            <div class="cipher-card" data-cipher="columnar" data-family="transposition" tabindex="0" role="radio" aria-checked="false">
+              <div class="cipher-card-head">
+                <span class="cipher-number">08</span>
+                <span class="cipher-family-badge badge-trans">TRANSPOSITION</span>
+              </div>
+              <h4 class="cipher-card-name">Columnar Transposition</h4>
+              <p class="cipher-card-desc">Grid permutation reading columns sorted by keyword character order.</p>
+              <div class="cipher-meta">
+                <span class="meta-item">Key: Keyword</span>
+                <span class="meta-item">Type: Permutation</span>
+              </div>
+            </div>
+
+          </div>
+        </aside>
+
+        <!-- RIGHT PANEL: INTERACTIVE CRYPTOGRAPHIC WORKSPACE -->
+        <div class="workspace-main" role="region" aria-label="Cryptographic Controls &amp; Output">
+          
+          <!-- Active Cipher Header Banner -->
+          <div class="cipher-banner">
+            <div class="cipher-banner-info">
+              <div class="banner-title-row">
+                <h3 id="active-cipher-title" class="active-cipher-title">Caesar Cipher</h3>
+                <span id="active-family-tag" class="cipher-family-badge badge-sub">SUBSTITUTION</span>
+              </div>
+              <p id="active-cipher-formula" class="active-cipher-formula">
+                Mathematical Model: C = (P + k) mod 26 | P = (C - k + 26) mod 26
+              </p>
+              <p id="active-cipher-desc" class="active-cipher-desc">
+                Shifts each alphabetic character forward by a fixed numeric key k. Preserves case and punctuation.
+              </p>
+            </div>
+
+            <!-- Mode Selector (Encrypt / Decrypt) -->
+            <div class="mode-selector" role="radiogroup" aria-label="Cryptographic Operation Mode">
+              <button type="button" class="mode-btn active" id="mode-encrypt" role="radio" aria-checked="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                ENCRYPT
+              </button>
+              <button type="button" class="mode-btn" id="mode-decrypt" role="radio" aria-checked="false">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+                </svg>
+                DECRYPT
+              </button>
+            </div>
+          </div>
+
+          <!-- DYNAMIC KEY CONFIGURATION AREA -->
+          <div class="panel-box key-panel">
+            <div class="panel-box-header">
+              <label for="key-input-area" class="input-label">
+                <span class="label-indicator">KEY SPECIFICATION</span>
+                <span id="key-help-hint" class="input-hint">Specify shift value (0 to 25)</span>
+              </label>
+              <div class="key-actions-toolbar" id="key-toolbar">
+                <!-- Dynamically populated buttons (e.g. Random Key, Presets) -->
+              </div>
+            </div>
+
+            <div id="dynamic-key-container" class="dynamic-key-container">
+              <!-- Controls rendered dynamically via JS depending on active cipher -->
+            </div>
+
+            <!-- Live Key Validation Message -->
+            <div id="key-validation-message" class="validation-message" role="alert" aria-live="polite"></div>
+
+            <!-- Visual Key Matrix / Auxiliary Panel (Playfair 5x5, Hill 2x2, Columnar order) -->
+            <div id="visual-matrix-panel" class="visual-matrix-panel hidden" aria-label="Visual Matrix Inspection">
+              <div class="matrix-panel-title">
+                <span id="matrix-title-text">KEY MATRIX INSPECTION</span>
+                <span class="matrix-tag" id="matrix-status-tag">5×5 Polybius Grid</span>
+              </div>
+              <div id="matrix-display" class="matrix-display"></div>
+            </div>
+          </div>
+
+          <!-- INPUT WORKSPACE -->
+          <div class="panel-box input-panel">
+            <div class="panel-box-header">
+              <label for="text-input" class="input-label" id="input-label-text">
+                <span class="label-indicator">INPUT PLAINTEXT</span>
+                <span class="input-hint">Supports letters, digits, and punctuation</span>
+              </label>
+              <div class="char-counter">
+                <span id="input-char-count">0</span> chars • <span id="input-word-count">0</span> words
+              </div>
+            </div>
+
+            <div class="textarea-wrapper">
+              <textarea 
+                id="text-input" 
+                class="cyber-textarea" 
+                placeholder="Enter text to process or click 'Load Sample Text' above..." 
+                rows="4" 
+                spellcheck="false" 
+                aria-describedby="key-validation-message"></textarea>
+            </div>
+
+            <!-- Primary Action Bar -->
+            <div class="workspace-action-bar">
+              <div class="action-group-left">
+                <button type="button" class="btn btn-primary" id="execute-btn">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                  <span id="execute-btn-label">EXECUTE ENCRYPTION</span>
+                </button>
+                <button type="button" class="btn btn-secondary" id="swap-btn" title="Swap output back to input for reverse processing">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="16 3 21 3 21 8"></polyline>
+                    <line x1="4" y1="20" x2="21" y2="3"></line>
+                    <polyline points="8 21 3 21 3 16"></polyline>
+                    <line x1="20" y1="4" x2="3" y2="21"></line>
+                  </svg>
+                  SWAP INPUT/OUTPUT
+                </button>
+              </div>
+
+              <div class="action-group-right">
+                <button type="button" class="btn btn-ghost" id="clear-btn">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                  CLEAR
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- OUTPUT WORKSPACE -->
+          <div class="panel-box output-panel">
+            <div class="panel-box-header">
+              <label for="output-text" class="input-label" id="output-label-text">
+                <span class="label-indicator">CRYPTOGRAPHIC OUTPUT</span>
+                <span class="input-hint" id="output-mode-hint">CIPHERTEXT TERMINAL</span>
+              </label>
+              <div class="output-stats-strip">
+                <span class="exec-time-badge" id="exec-time-badge">⏱ 0.00 ms</span>
+                <span class="stat-pill"><span id="output-char-count">0</span> chars</span>
+              </div>
+            </div>
+
+            <div class="terminal-container">
+              <div class="terminal-bar">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+                <span class="terminal-title" id="terminal-session-title">SESSION: CAESAR // BUFFER READY</span>
+              </div>
+              <div id="output-display" class="terminal-output" tabindex="0" role="region" aria-label="Processed Cryptographic Output">
+                <span class="output-placeholder">// Cryptographic output will appear here after execution...</span>
+              </div>
+            </div>
+
+            <!-- Output Action Bar -->
+            <div class="output-action-bar">
+              <button type="button" class="btn btn-secondary btn-sm" id="copy-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                COPY RESULT
+              </button>
+              <button type="button" class="btn btn-cyan btn-sm" id="download-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                DOWNLOAD (.TXT)
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: ALGORITHM COMPARISON MODULE -->
+    <section id="comparison" class="comparison-section" aria-labelledby="comparison-title">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">// MODULE 02</span>
+          <h2 id="comparison-title" class="section-title">ALGORITHM COMPARISON ENGINE</h2>
+          <p class="section-desc">
+            Benchmark all 8 classical ciphers simultaneously against a shared plaintext. Inspect execution time, output ciphertext, keyspace characteristics, and cryptanalytic vulnerabilities.
+          </p>
+        </div>
+      </div>
+
+      <div class="panel-box">
+        <div class="comparison-input-bar">
+          <div class="comp-input-group">
+            <label for="compare-text-input" class="input-label">
+              <span class="label-indicator">BENCHMARK PLAINTEXT</span>
+            </label>
+            <input 
+              type="text" 
+              id="compare-text-input" 
+              class="cyber-input" 
+              value="NETWORK SECURITY AND CLASSICAL CIPHERS 2027" 
+              placeholder="Enter text to benchmark across all 8 algorithms...">
+          </div>
+          <button type="button" class="btn btn-primary" id="run-compare-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            COMPARE ALL 8 ALGORITHMS
+          </button>
+        </div>
+
+        <div class="academic-note-bar">
+          <span class="tag-note">METHODOLOGY NOTE:</span>
+          Execution times are measured in the local browser via <code>performance.now()</code>. Times reflect local hardware, JIT compilation, and JS single-thread execution.
+        </div>
+
+        <div class="table-responsive">
+          <table class="cyber-table" id="comparison-table">
+            <thead>
+              <tr>
+                <th scope="col">ALGORITHM</th>
+                <th scope="col">FAMILY</th>
+                <th scope="col">SAMPLE KEY USED</th>
+                <th scope="col">TIME (ms)</th>
+                <th scope="col">OUTPUT PREVIEW</th>
+                <th scope="col">STATUS</th>
+                <th scope="col">CRYPTANALYSIS VULNERABILITY</th>
+              </tr>
+            </thead>
+            <tbody id="comparison-tbody">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: FILE ENCRYPTION AND DECRYPTION -->
+    <section id="file-tools" class="files-section" aria-labelledby="files-title">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">// MODULE 03</span>
+          <h2 id="files-title" class="section-title">CLIENT-SIDE FILE CIPHER ENGINE</h2>
+          <p class="section-desc">
+            Encrypt and decrypt plain text (<code>.txt</code>) files locally in your browser memory. 100% private: no data is uploaded or transmitted over the network.
+          </p>
+        </div>
+      </div>
+
+      <div class="file-workspace-grid">
+        <!-- File Upload & Info Card -->
+        <div class="panel-box file-drop-panel">
+          <h3 class="panel-heading">FILE INGESTION (CLIENT-SIDE)</h3>
+          
+          <div class="file-drop-zone" id="file-drop-zone">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="12" y1="18" x2="12" y2="12"></line>
+              <line x1="9" y1="15" x2="15" y2="15"></line>
+            </svg>
+            <p class="drop-text">Drag &amp; drop a <code>.txt</code> file here, or click to browse</p>
+            <input type="file" id="file-input" accept=".txt,text/plain" class="visually-hidden">
+            <button type="button" class="btn btn-secondary btn-sm" id="browse-file-btn">Select File</button>
+          </div>
+
+          <div class="file-meta-card hidden" id="file-meta-card">
+            <div class="meta-row">
+              <span class="meta-label">File Name:</span>
+              <span class="meta-value" id="file-name-val">sample.txt</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">File Size:</span>
+              <span class="meta-value" id="file-size-val">0 KB</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Characters:</span>
+              <span class="meta-value" id="file-chars-val">0</span>
+            </div>
+          </div>
+
+          <!-- File text preview -->
+          <div class="file-preview-group">
+            <label for="file-preview-text" class="input-label">
+              <span class="label-indicator">FILE CONTENT PREVIEW</span>
+            </label>
+            <textarea id="file-preview-text" class="cyber-textarea file-preview" rows="5" readonly placeholder="Uploaded file preview will show here..."></textarea>
+          </div>
+        </div>
+
+        <!-- File Cryptographic Processing Controls -->
+        <div class="panel-box file-control-panel">
+          <h3 class="panel-heading">PROCESSING PARAMETERS</h3>
+
+          <div class="form-group">
+            <label for="file-cipher-select" class="input-label">Select Cipher Algorithm</label>
+            <select id="file-cipher-select" class="cyber-select">
+              <option value="caesar">Caesar Cipher</option>
+              <option value="monoalphabetic">Monoalphabetic Substitution</option>
+              <option value="playfair">Playfair Cipher</option>
+              <option value="hill">Hill Cipher (2×2)</option>
+              <option value="vigenere" selected>Vigenère Cipher</option>
+              <option value="otp">One-Time Pad</option>
+              <option value="railfence">Rail Fence Cipher</option>
+              <option value="columnar">Columnar Transposition</option>
+            </select>
+          </div>
+
+          <!-- Dynamic Key Field for File Processing -->
+          <div id="file-key-container" class="form-group">
+            <label for="file-key-input" class="input-label">
+              <span id="file-key-label">Key / Keyword</span>
+            </label>
+            <input type="text" id="file-key-input" class="cyber-input" value="CIPHERKEY" placeholder="Enter key...">
+            <span class="input-hint" id="file-key-hint">Enter alphabetic keyword for Vigenère</span>
+          </div>
+
+          <!-- File Action Buttons -->
+          <div class="file-actions-row">
+            <button type="button" class="btn btn-primary" id="file-encrypt-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              ENCRYPT FILE
+            </button>
+            <button type="button" class="btn btn-secondary" id="file-decrypt-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+              </svg>
+              DECRYPT FILE
+            </button>
+          </div>
+
+          <!-- File Output Result Card -->
+          <div class="file-output-box">
+            <div class="panel-box-header">
+              <label for="file-result-preview" class="input-label">
+                <span class="label-indicator">PROCESSED FILE RESULT</span>
+              </label>
+              <span class="exec-time-badge" id="file-exec-time">⏱ 0.00 ms</span>
+            </div>
+            <textarea id="file-result-preview" class="cyber-textarea file-preview" rows="5" readonly placeholder="Processed file output will appear here..."></textarea>
+            <button type="button" class="btn btn-cyan btn-sm full-width" id="file-download-btn" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              DOWNLOAD PROCESSED FILE (.TXT)
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: AUTOMATED VERIFICATION & SELF-TEST SUITE -->
+    <section id="self-tests" class="tests-section" aria-labelledby="tests-title">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">// MODULE 04</span>
+          <h2 id="tests-title" class="section-title">CRYPTOGRAPHIC SELF-TEST &amp; VERIFICATION SUITE</h2>
+          <p class="section-desc">
+            Independent mathematical test harness checking all 8 classical algorithms against known reference test vectors and inversion roundtrips.
+          </p>
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary" id="run-all-tests-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            RUN ALL SELF-TESTS
+          </button>
+        </div>
+      </div>
+
+      <div class="panel-box">
+        <div class="test-suite-summary">
+          <div class="summary-stat">
+            <span class="summary-label">OVERALL STATUS</span>
+            <span class="summary-val" id="test-overall-status">READY TO RUN</span>
+          </div>
+          <div class="summary-stat">
+            <span class="summary-label">TESTS PASSED</span>
+            <span class="summary-val text-neon" id="test-pass-count">0 / 11</span>
+          </div>
+          <div class="summary-stat">
+            <span class="summary-label">TOTAL TIME</span>
+            <span class="summary-val" id="test-total-time">0.00 ms</span>
+          </div>
+        </div>
+
+        <div class="test-results-list" id="test-results-list">
+          <!-- Dynamically populated test cards -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: HELP & DOCUMENTATION -->
+    <section id="documentation" class="docs-section" aria-labelledby="docs-title">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">// MODULE 05</span>
+          <h2 id="docs-title" class="section-title">HELP &amp; CRYPTOGRAPHY REFERENCE MANUAL</h2>
+          <p class="section-desc">
+            Theoretical fundamentals, algorithm specifications, mathematical models, cryptanalysis vulnerabilities, and user operational guidance.
+          </p>
+        </div>
+      </div>
+
+      <!-- Accordion / Tabs for Documentation -->
+      <div class="docs-grid">
+        
+        <!-- Doc Card 1: Fundamentals -->
+        <article class="doc-card">
+          <h3 class="doc-card-title">
+            <span class="doc-num">01</span> What is Classical Cryptography?
+          </h3>
+          <p>
+            Classical cryptography comprises encryption techniques developed and used prior to the mid-20th century, before electronic digital computers and information theory (Claude Shannon, 1949). These algorithms operate on character or digraph alphabets rather than binary bits.
+          </p>
+          <div class="doc-divider"></div>
+          <h4 class="doc-subheading">Substitution vs. Transposition:</h4>
+          <ul>
+            <li><strong>Substitution Ciphers:</strong> The positions of characters remain fixed, but their identities are replaced by other characters or symbols (e.g. Caesar, Monoalphabetic, Playfair, Hill, Vigenère, One-Time Pad).</li>
+            <li><strong>Transposition Ciphers:</strong> The identities of the characters remain intact, but their positions or sequence within the text are permuted according to a geometric rule or key (e.g. Rail Fence, Columnar Transposition).</li>
+          </ul>
+        </article>
+
+        <!-- Doc Card 2: Algorithm Reference Sheet -->
+        <article class="doc-card">
+          <h3 class="doc-card-title">
+            <span class="doc-num">02</span> Algorithm Specifications &amp; Formulas
+          </h3>
+          <div class="algo-specs-table">
+            <div class="spec-row">
+              <strong>1. Caesar:</strong> <code>C = (P + k) mod 26</code>. Vulnerable to exhaustive search (25 shifts) and letter frequency analysis (English 'E' is ~12.7%).
+            </div>
+            <div class="spec-row">
+              <strong>2. Monoalphabetic:</strong> Uses arbitrary permutation of 26 letters. Keyspace is <code>26! ≈ 4.03 × 10²⁶</code>, but easily broken using single-letter and digraph frequencies.
+            </div>
+            <div class="spec-row">
+              <strong>3. Playfair:</strong> Encrypts digraphs on a 5×5 matrix (combining I &amp; J). Equal letters in pairs take filler 'X'. Flattened single-letter frequency, but vulnerable to digraph frequency attacks.
+            </div>
+            <div class="spec-row">
+              <strong>4. Hill (2×2):</strong> <code>C = K · P mod 26</code>. Key matrix <code>K</code> requires <code>gcd(det(K), 26) = 1</code>. Invertible using <code>K⁻¹ = det⁻¹ · adj(K) mod 26</code>. Broken via known-plaintext attack with 2 pairs.
+            </div>
+            <div class="spec-row">
+              <strong>5. Vigenère:</strong> Polyalphabetic repeating key. Resists simple frequency analysis, but broken using Kasiski examination and Friedman's Index of Coincidence to determine key length.
+            </div>
+            <div class="spec-row">
+              <strong>6. One-Time Pad:</strong> Information-theoretically secure (proven by Shannon) <em>if and only if</em> the key is truly random, never reused, kept completely secret, and at least as long as the message.
+            </div>
+            <div class="spec-row">
+              <strong>7. Rail Fence:</strong> Transposition using a diagonal zigzag path across <code>R</code> rails. Preserves character frequencies; broken by trying small rail depths.
+            </div>
+            <div class="spec-row">
+              <strong>8. Columnar Transposition:</strong> Permutes columns according to alphabetical sorting of the keyword letters. Broken through anagramming and multiple anagram analysis.
+            </div>
+          </div>
+        </article>
+
+        <!-- Doc Card 3: User Guide & Workflow -->
+        <article class="doc-card">
+          <h3 class="doc-card-title">
+            <span class="doc-num">03</span> Step-by-Step User Instructions
+          </h3>
+          <div class="guide-steps">
+            <div class="guide-step">
+              <span class="step-badge">A</span>
+              <strong>Text Encryption &amp; Decryption:</strong> Select a cipher from the left panel. Enter the required key in the dynamic input field. Type or paste text. Click "EXECUTE ENCRYPTION" or "DECRYPT". Copy or download the output.
+            </div>
+            <div class="guide-step">
+              <span class="step-badge">B</span>
+              <strong>Algorithm Comparison:</strong> Scroll to Module 02. Enter a plaintext string and click "COMPARE ALL 8 ALGORITHMS". Inspect comparative execution timings, outputs, and vulnerabilities in the live benchmark table.
+            </div>
+            <div class="guide-step">
+              <span class="step-badge">C</span>
+              <strong>File Cryptography:</strong> Drag-and-drop any <code>.txt</code> file into Module 03. Select the cipher and key, then click "ENCRYPT FILE" or "DECRYPT FILE". Download the resulting processed file immediately.
+            </div>
+            <div class="guide-step">
+              <span class="step-badge">D</span>
+              <strong>Automated Verification:</strong> Run Module 04 to execute automated test vectors verifying standard cipher correctness and mathematical invertibility.
+            </div>
+          </div>
+        </article>
+
+        <!-- Doc Card 4: Academic Disclaimer -->
+        <article class="doc-card warning-card">
+          <h3 class="doc-card-title text-warning">
+            <span class="doc-num">04</span> Security Notice &amp; Academic Disclaimer
+          </h3>
+          <p>
+            <strong>CRITICAL SECURITY WARNING:</strong>
+            Classical ciphers are strictly educational models. In modern cybersecurity, classical algorithms offer <em>zero confidentiality</em> against computers:
+          </p>
+          <ul class="warning-list">
+            <li>Any classical cipher can be broken in microseconds on a standard smartphone or laptop.</li>
+            <li>They lack integrity verification, authenticity, and non-repudiation.</li>
+            <li><strong>DO NOT</strong> use classical ciphers to protect passwords, personal identification, financial tokens, credentials, or proprietary business data.</li>
+            <li>Modern security utilizes standards such as <strong>AES-256-GCM</strong> (symmetric), <strong>RSA-4096 / Ed25519 / ECDSA</strong> (asymmetric), and post-quantum lattice cryptography (ML-KEM, ML-DSA).</li>
+          </ul>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="app-footer" role="contentinfo">
+    <div class="footer-container">
+      <div class="footer-left">
+        <span class="footer-brand">CRYPT//CORE &bull; CLASSICAL CRYPTOGRAPHY TOOLKIT</span>
+        <span class="footer-meta">Final Year Network Security Mini Project &bull; Academic Year 2026–27</span>
+      </div>
+      <div class="footer-center">
+        <span>Electronics &amp; Computer Engineering &bull; Pure Client-Side HTML5 / CSS3 / Vanilla JS</span>
+      </div>
+      <div class="footer-right">
+        <a href="#dashboard" class="footer-link">Back to Top &uarr;</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- EXIT / RESET CONFIRMATION MODAL -->
+  <div id="exit-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title" class="modal-title">EXIT / RESET WORKSPACE</h3>
+        <button type="button" class="modal-close" id="modal-close-btn" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Would you like to reset all input buffers and restore the default state?</p>
+        <p class="modal-note">
+          <strong>Browser Safety Note:</strong> Modern browsers prevent web scripts from closing active tabs without user interaction. To exit completely, you can close this browser tab at any time.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" id="modal-cancel-btn">Cancel</button>
+        <button type="button" class="btn btn-primary" id="modal-reset-btn">Reset Workspace</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
