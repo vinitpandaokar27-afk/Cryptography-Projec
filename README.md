@@ -289,4 +289,6 @@ Contributions for educational improvements, bug fixes, documentation, and additi
 
 ## License
 
+Link for the application : https://mini-project-11.netlify.app/
+
 This project may be distributed under the MIT License if you choose to adopt it. Before publishing, add a `LICENSE` file containing the complete license text and confirm that the licensing choice is appropriate for your project.
